@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import { CustomCursor } from "@/components/ui/custom-cursor";
+import { AIChatbot } from "@/components/ai-chat/ai-chatbot";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"], display: "swap" });
@@ -13,5 +14,14 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
-  return <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}><body><a className="skip-link" href="#main-content">Skip to content</a><CustomCursor />{children}</body></html>;
+  return (
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body>
+        <a className="skip-link" href="#main-content">Skip to content</a>
+        <CustomCursor />
+        {children}
+        <AIChatbot />
+      </body>
+    </html>
+  );
 }

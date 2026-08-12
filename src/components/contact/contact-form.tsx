@@ -142,7 +142,6 @@ export function ContactForm() {
                 value={values.name}
                 onChange={(e) => update("name", e.target.value)}
                 placeholder="Enter your name..."
-                autoFocus
                 className="w-full bg-[#f9f9f7] border-2 border-[#333630] rounded p-4 text-[#0b0c0e] text-sm font-mono font-bold placeholder:text-[#666a63] focus:outline-none focus:border-[#657d13] focus:bg-white transition-colors"
               />
             </div>
@@ -184,7 +183,6 @@ export function ContactForm() {
                 value={values.email}
                 onChange={(e) => update("email", e.target.value)}
                 placeholder="your.email@company.com"
-                autoFocus
                 className="w-full bg-[#f9f9f7] border-2 border-[#333630] rounded p-4 text-[#0b0c0e] text-sm font-mono font-bold placeholder:text-[#666a63] focus:outline-none focus:border-[#657d13] focus:bg-white transition-colors"
               />
             </div>
@@ -201,7 +199,6 @@ export function ContactForm() {
                 onChange={(e) => update("message", e.target.value)}
                 rows={4}
                 placeholder="Share scope, goals, or timeline..."
-                autoFocus
                 className="w-full bg-[#f9f9f7] border-2 border-[#333630] rounded p-4 text-[#0b0c0e] text-sm font-mono font-bold placeholder:text-[#666a63] focus:outline-none focus:border-[#657d13] focus:bg-white transition-colors resize-none"
               />
             </div>
