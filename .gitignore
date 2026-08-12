@@ -2,8 +2,7 @@
 
 # dependencies
 /node_modules
-public/videos/
-public/hero/*.mp4
+
 /.pnp
 .pnp.*
 .yarn/*
@@ -50,3 +49,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+public/videos/*.mp4
+public/hero/*.mp4
