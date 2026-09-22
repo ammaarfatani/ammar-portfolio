@@ -65,12 +65,10 @@ export function ChatMessages({ messages, isLoading, onQuickActionSelect }: ChatM
         );
       })}
 
-      {/* Show Quick Action Prompt Chips after the initial greeting if only 1 AI message exists */}
       {messages.length === 1 && (
         <QuickActions onSelect={onQuickActionSelect} disabled={isLoading} />
       )}
 
-      {/* Typing Indicator */}
       {isLoading && <TypingIndicator />}
 
       <div ref={bottomRef} />
@@ -78,19 +76,14 @@ export function ChatMessages({ messages, isLoading, onQuickActionSelect }: ChatM
   );
 }
 
-// Simple, safe Markdown & Link parser helper
 function parseMarkdownText(text: string) {
   if (!text) return null;
 
-  // Split into lines
   const lines = text.split("\n");
 
   return lines.map((line, lineIdx) => {
-    // Check for bullet items
     const isBullet = line.trim().startsWith("- ") || line.trim().startsWith("* ");
     const content = isBullet ? line.trim().substring(2) : line;
-
-    // Process inline formatting: bold & links
     const parts = parseInlineFormatting(content);
 
     if (isBullet) {
@@ -111,14 +104,12 @@ function parseMarkdownText(text: string) {
 }
 
 function parseInlineFormatting(text: string) {
-  // Regex pattern for bold **text** and markdown links [label](url) and raw URLs
-  const regex = /(\*\*.*?\*\*|\[.*?\]\(https?:\/\/.*?\)|https?:\/\/[^\s]+)/g;
+  const regex = /(\*\*[^*]+\*\*|\[[^\]]+\]\((?:https?:\/\/[^)\s]+|\/[^)\s]+)\)|https?:\/\/[^\s]+)/g;
   const tokens = text.split(regex);
 
   return tokens.map((token, i) => {
     if (!token) return null;
 
-    // Bold text **...**
     if (token.startsWith("**") && token.endsWith("**") && token.length > 4) {
       return (
         <strong key={i} className="text-white font-bold">
@@ -127,16 +118,15 @@ function parseInlineFormatting(text: string) {
       );
     }
 
-    // Markdown link [text](url)
-    const mdLinkMatch = token.match(/^\[(.*?)\]\((https?:\/\/.*?)\)$/);
+    const mdLinkMatch = token.match(/^\[(.*?)\]\((.*?)\)$/);
     if (mdLinkMatch) {
       const [, label, url] = mdLinkMatch;
+      const isInternal = url.startsWith("/");
       return (
         <a
           key={i}
           href={url}
-          target="_blank"
-          rel="noreferrer"
+          {...(isInternal ? {} : { target: "_blank", rel: "noreferrer" })}
           className="text-accent underline font-semibold hover:text-white transition-colors"
         >
           {label}
@@ -144,7 +134,6 @@ function parseInlineFormatting(text: string) {
       );
     }
 
-    // Raw URL https://...
     if (token.startsWith("http://") || token.startsWith("https://")) {
       return (
         <a

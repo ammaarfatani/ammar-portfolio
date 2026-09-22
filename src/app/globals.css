@@ -5226,8 +5226,31 @@ button {
     order: 2;
     position: relative;
     top: auto;
-    height: min(22rem, 70vw);
-    margin-top: -1.5rem;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    overflow: hidden;
+    margin-top: 0;
+  }
+
+  .about-photo-wrapper {
+    width: 100%;
+    height: auto;
+    padding: 0.85rem;
+  }
+
+  .about-photo-card {
+    width: min(100%, 24rem);
+    height: auto;
+    max-width: none;
+    aspect-ratio: 3 / 4;
+  }
+
+  .about-photo-image {
+    object-fit: cover;
+    object-position: center top;
   }
 
   .about-profile h2 {

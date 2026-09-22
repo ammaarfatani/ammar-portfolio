@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
-const navItems = ["Work", "About", "Stack", "Playground", "Contact"] as const;
+const navItems = ["Work", "About", "Stack", "Contact"] as const;
 
 export function Navigation() {
   const { scrollY } = useScroll();

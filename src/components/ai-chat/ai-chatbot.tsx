@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Bot, Sparkles, X } from "lucide-react";
 import { ChatHeader } from "./chat-header";
@@ -16,26 +16,18 @@ How can I help you today?`;
 
 export function AIChatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    {
+      id: "init_greeting",
+      sender: "ai",
+      text: INITIAL_GREETING,
+      timestamp: "",
+    },
+  ]);
   const [isLoading, setIsLoading] = useState(false);
-  const [sessionId, setSessionId] = useState<string>("");
+  const [sessionId, setSessionId] = useState(() => getOrCreateSessionId());
+  const sendingRef = useRef(false);
 
-  // Initialize session ID and initial greeting
-  useEffect(() => {
-    const id = getOrCreateSessionId();
-    setSessionId(id);
-
-    setMessages([
-      {
-        id: "init_greeting",
-        sender: "ai",
-        text: INITIAL_GREETING,
-        timestamp: formatTime(new Date()),
-      },
-    ]);
-  }, []);
-
-  // Listen for Escape key to close window
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
@@ -48,7 +40,8 @@ export function AIChatbot() {
 
   const handleSendMessage = useCallback(
     async (userInput: string) => {
-      if (!userInput.trim() || isLoading) return;
+      if (!userInput.trim() || isLoading || sendingRef.current) return;
+      sendingRef.current = true;
 
       const userMsg: ChatMessage = {
         id: `user_${Date.now()}`,
@@ -56,6 +49,13 @@ export function AIChatbot() {
         text: userInput,
         timestamp: formatTime(new Date()),
       };
+
+      const history = messages
+        .filter((msg) => !msg.isError)
+        .map((msg) => ({
+          role: msg.sender === "user" ? "user" : "assistant",
+          content: msg.text,
+        }));
 
       setMessages((prev) => [...prev, userMsg]);
       setIsLoading(true);
@@ -67,6 +67,7 @@ export function AIChatbot() {
           body: JSON.stringify({
             chatInput: userInput,
             sessionId: sessionId || getOrCreateSessionId(),
+            messages: history,
           }),
         });
 
@@ -94,13 +95,15 @@ export function AIChatbot() {
         };
         setMessages((prev) => [...prev, errorMsg]);
       } finally {
+        sendingRef.current = false;
         setIsLoading(false);
       }
     },
-    [isLoading, sessionId]
+    [isLoading, sessionId, messages]
   );
 
   const handleReset = useCallback(() => {
+    sendingRef.current = false;
     const newId = resetSessionId();
     setSessionId(newId);
     setMessages([

@@ -3,7 +3,6 @@ import { Hero } from "@/components/hero/hero";
 import { AboutExperience } from "@/components/about/about-experience";
 import { TechnologyStack } from "@/components/stack/technology-stack";
 import { SelectedWork } from "@/components/work/selected-work";
-import { Playground } from "@/components/playground/playground";
 import { AiBuilder } from "@/components/ai/ai-builder";
 import { ExperienceEducation } from "@/components/profile/experience-education";
 import { HowIBuild } from "@/components/process/how-i-build";
@@ -19,7 +18,6 @@ export default function Home() {
         <AboutExperience />
         <TechnologyStack />
         <SelectedWork />
-        <Playground />
         <AiBuilder />
         <ExperienceEducation />
         <HowIBuild />

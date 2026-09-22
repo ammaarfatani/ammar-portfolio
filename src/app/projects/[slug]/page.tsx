@@ -51,7 +51,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <main id="main-content" className="case-study-page py-20 px-4 sm:px-8 max-w-5xl mx-auto" tabIndex={-1}>
         
         {/* Top Navigation Bar */}
-        <div className="flex items-center justify-between border-b border-white/10 pb-6 mb-12">
+        <div className="flex mt-10 items-center justify-between border-b border-white/10 pb-6 mb-12">
           <Link
             href="/work"
             className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-neutral-400 hover:text-accent transition-colors"

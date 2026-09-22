@@ -102,7 +102,7 @@ export function Hero() {
           transition={{ delay: 0.45, duration: 0.55, ease: [0.16, 1, 0.3, 1] as const }}
         >
           <div className="hero-stat-card">
-            <span className="hero-stat-label">Experience</span>
+            <span className="hero-stat-label experience">Experience</span>
             <strong className="hero-stat-value">1–1.5</strong>
             <small className="hero-stat-sub">Years</small>
           </div>
